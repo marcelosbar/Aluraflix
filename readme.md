@@ -4,4 +4,4 @@ Essa API está sendo desenvolvida durante o [#alurachallengeback](https://www.al
 
 A API ainda está em construção, mas o beta já está disponivel em https://marcelosbar-aluraflix.herokuapp.com/videos
 
-Documentacao será escrita em breve...
+Documentacao será escrita em breve.
