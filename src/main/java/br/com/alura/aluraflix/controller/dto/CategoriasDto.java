@@ -1,14 +1,15 @@
 package br.com.alura.aluraflix.controller.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 import br.com.alura.aluraflix.model.Categoria;
+import lombok.Getter;
+import lombok.Setter;
 
 public class CategoriasDto {
-	private Long id;
-	private String titulo;
-	private String cor;
+	private @Getter Long id;
+	private @Getter @Setter String titulo;
+	private @Getter @Setter String cor;
 
 	public CategoriasDto(Categoria categorias) {
 		this.id = categorias.getId();
@@ -16,28 +17,8 @@ public class CategoriasDto {
 		this.cor = categorias.getCor();
 	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getCor() {
-		return cor;
-	}
-
-	public void setCor(String cor) {
-		this.cor = cor;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public static List<CategoriasDto> converter(List<Categoria> listaDeCategorias) {
-		return listaDeCategorias.stream().map(CategoriasDto::new).collect(Collectors.toList());
+	public static Page<CategoriasDto> converter(Page<Categoria> listaDeCategorias) {
+		return listaDeCategorias.map(CategoriasDto::new);
 	}
 
 }

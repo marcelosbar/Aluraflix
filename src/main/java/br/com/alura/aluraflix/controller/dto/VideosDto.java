@@ -1,17 +1,17 @@
 package br.com.alura.aluraflix.controller.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 import br.com.alura.aluraflix.model.Video;
+import lombok.Getter;
 
 public class VideosDto {
 
-	private Long id;
-	private String titulo;
-	private String descricao;
-	private String url;
-	private Long categoria;
+	private @Getter Long id;
+	private @Getter String titulo;
+	private @Getter String descricao;
+	private @Getter String url;
+	private @Getter Long categoria;
 
 	public VideosDto(Video video) {
 		this.id = video.getId();
@@ -20,28 +20,8 @@ public class VideosDto {
 		this.url = video.getUrl();
 		this.categoria = video.getCategoria() == null ? null : video.getCategoria().getId();
 	}
-	
-	public Long getId() {
-		return id;
-	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-	
-	public Long getCategoria() {
-		return categoria;
-	}
-
-	public static List<VideosDto> converter(List<Video> listaDeVideos) {
-		return listaDeVideos.stream().map(VideosDto::new).collect(Collectors.toList());
+	public static Page<VideosDto> converter(Page<Video> listaDeVideos) {
+		return listaDeVideos.map(VideosDto::new);
 	}
 }

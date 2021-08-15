@@ -1,13 +1,16 @@
 package br.com.alura.aluraflix.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,13 +40,14 @@ public class CategoriasController {
 	private VideosRepository videosRepository;
 
 	@GetMapping
-	public List<CategoriasDto> listaTodos() {
-		List<Categoria> listaDeCategorias = categoriasRepository.findAll();
+	public Page<CategoriasDto> listarTodos(
+			@PageableDefault(sort = "id", direction = Direction.ASC, page = 0, size = 5) Pageable paginacao) {
+		Page<Categoria> listaDeCategorias = categoriasRepository.findAll(paginacao);
 		return CategoriasDto.converter(listaDeCategorias);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<CategoriasDto> listaUm(@PathVariable Long id) {
+	public ResponseEntity<CategoriasDto> listarUmPorId(@PathVariable Long id) {
 		Optional<Categoria> categoria = categoriasRepository.findById(id);
 		if (categoria.isPresent()) {
 			return ResponseEntity.ok(new CategoriasDto(categoria.get()));
@@ -52,11 +56,12 @@ public class CategoriasController {
 	}
 
 	@GetMapping("/{id}/videos")
-	public ResponseEntity<List<Video>> listaVideosPorCategoria(@PathVariable Long id) {
+	public ResponseEntity<Page<Video>> listarVideosPorCategoria(@PathVariable Long id,
+			@PageableDefault(sort = "id", direction = Direction.ASC, page = 0, size = 5) Pageable paginacao) {
 		Optional<Categoria> categoria = categoriasRepository.findById(id);
 
 		if (categoria.isPresent()) {
-			Optional<List<Video>> videos = videosRepository.findByCategoria(categoria.get());
+			Optional<Page<Video>> videos = videosRepository.findByCategoria(categoria.get(), paginacao);
 			if (videos.isPresent()) {
 				return ResponseEntity.ok(videos.get());
 			}
@@ -89,7 +94,8 @@ public class CategoriasController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> deletar(@PathVariable Long id) {
-		// TODO Necessário tratar tentativa de exclusão de categoria que possui videos cadastrados!
+		// TODO Necessário tratar tentativa de exclusão de categoria que possui videos
+		// cadastrados!
 		Optional<Categoria> optional = categoriasRepository.findById(id);
 		if (optional.isPresent()) {
 			categoriasRepository.deleteById(id);

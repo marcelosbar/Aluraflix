@@ -1,7 +1,6 @@
 package br.com.alura.aluraflix.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -9,6 +8,10 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,27 +36,28 @@ public class VideosController {
 
 	@Autowired
 	private VideosRepository videosRepository;
-	
-    @Autowired
-    private CategoriasRepository categoriasRepository;
-    
-    @Autowired
-    private ModelMapper modelMapper;
+
+	@Autowired
+	private CategoriasRepository categoriasRepository;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@GetMapping
-	public List<VideosDto> listaTodos(String search) {
+	public Page<VideosDto> listarTodos(String search,
+			@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 5) Pageable paginacao) {
 
 		if (search == null || search.isBlank()) {
-			List<Video> listaDeVideos = videosRepository.findAll();
+			Page<Video> listaDeVideos = videosRepository.findAll(paginacao);
 			return VideosDto.converter(listaDeVideos);
 		}
 		// TODO Melhorar a busca para não ser case sensitive
-		List<Video> listaDeVideos = videosRepository.findByTituloContaining(search);
+		Page<Video> listaDeVideos = videosRepository.findByTituloContaining(search, paginacao);
 		return VideosDto.converter(listaDeVideos);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<VideosDto> listaUm(@PathVariable Long id) {
+	public ResponseEntity<VideosDto> listarPorId(@PathVariable Long id) {
 		Optional<Video> videos = videosRepository.findById(id);
 		if (videos.isPresent()) {
 			return ResponseEntity.ok(new VideosDto(videos.get()));
@@ -66,9 +70,10 @@ public class VideosController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<VideosDto> cadastrar(@RequestBody @Valid VideosForm form, UriComponentsBuilder uriBuilder) {
-		//TODO É preciso tratar tentativa de cadastro de video com categoria inexistente!
+		// TODO É preciso tratar tentativa de cadastro de video com categoria
+		// inexistente!
 		Video video = modelMapper.map(form, Video.class);
-		
+
 		Long idCategoria = form.getCategoria() == null ? 1L : form.getCategoria();
 		Categoria categoria = categoriasRepository.getById(idCategoria);
 		video.setCategoria(categoria);

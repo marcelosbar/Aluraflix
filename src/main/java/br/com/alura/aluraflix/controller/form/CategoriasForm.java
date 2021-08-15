@@ -4,29 +4,15 @@ import javax.validation.constraints.NotBlank;
 
 import br.com.alura.aluraflix.model.Categoria;
 import br.com.alura.aluraflix.repository.CategoriasRepository;
+import lombok.Getter;
+import lombok.Setter;
 
 public class CategoriasForm {
 
 	@NotBlank
-	private String titulo;
+	private @Getter @Setter String titulo;
 	@NotBlank
-	private String cor;
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getCor() {
-		return cor;
-	}
-
-	public void setCor(String cor) {
-		this.cor = cor;
-	}
+	private @Getter @Setter String cor;
 
 	public Categoria converter() {
 		return new Categoria(titulo, cor);

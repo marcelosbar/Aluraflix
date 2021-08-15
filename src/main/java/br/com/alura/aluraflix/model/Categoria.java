@@ -6,42 +6,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@NoArgsConstructor
 @Table(name = "categorias")
 public class Categoria {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String titulo;
-	private String cor;
-
-	public Categoria() {
-	}
+	private @Getter Long id;
+	private @Getter @Setter String titulo;
+	private @Getter @Setter String cor;
 
 	public Categoria(String titulo, String cor) {
 		this.titulo = titulo;
 		this.cor = cor;
-	}
-	
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getCor() {
-		return cor;
-	}
-
-	public void setCor(String cor) {
-		this.cor = cor;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 }
