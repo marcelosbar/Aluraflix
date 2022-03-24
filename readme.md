@@ -7,7 +7,7 @@ No desafio, foi proposto o desenvolvimento de uma API para cadastro de videos, d
 A API ainda possui melhorias a serem feitas, mas uma demosntração já está disponivel no Heroku em https://marcelosbar-aluraflix.herokuapp.com/videos. O servidor desliga automaticamente após alguns minutos de inatividade, portanto é necessário esperar até 1 minuto para que ele possa inicializar após tentar acessar a URL. Recomendo a utilização do Postman para realização de testes na API.
 
 ## Endpoints disponíveis
-Uma documentação mais completa será adicionada em breve, mas para testes simples é possivel utilizar os endpoints listados abaixo.
+Uma documentação mais completa será adicionada em breve, mas para testes simples, é possivel utilizar os endpoints listados abaixo.
 
 GET /videos
 > Lista todos os videos atualmente cadastrados.
