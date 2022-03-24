@@ -9,36 +9,36 @@ A API ainda possui melhorias a serem feitas, mas uma demosntração já está di
 ## Endpoints disponíveis
 Uma documentação mais completa será adicionada em breve, mas para testes simples, é possivel utilizar os endpoints listados abaixo.
 
-GET /videos
+- GET /videos
 > Lista todos os videos atualmente cadastrados.
 
-GET /videos/{id}
+- GET /videos/{id}
 > Lista detalhes do video com com o ID escolhido.
 
-POST /videos
+- POST /videos
 > Cadastra um video, desde que as informações fornecidas sejam válidas.
 
-PUT /videos/{id}
+- PUT /videos/{id}
 > Atualiza informações do video cadastrado como ID escolhido.
 
-DEL /videos/{id}
+- DEL /videos/{id}
 > Deleta o video com o ID escolhido.
 
-GET /categorias
+- GET /categorias
 > Lista todas as categorias cadastradas atualmente.
 
-GET /categorias/{id}
+- GET /categorias/{id}
 > Lista detalhes da categoria com o ID escolhido.
 
-GET /categorias/{id}/videos
+- GET /categorias/{id}/videos
 > Lista todos os videos cadastrados cuja categoria possui o ID escolhido.
 
-POST /categorias
+- POST /categorias
 > Cadastra uma nova categoria.
 
-PUT /categorias/{id}
+- PUT /categorias/{id}
 > Atualiza informações da categoria como ID escolhido.
 
-DEL /cageorias/{id}
+- DEL /cageorias/{id}
 > Deleta o video com o ID escolhido.
 
